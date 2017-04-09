@@ -9,8 +9,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.javacodegeeks.examples.logbackexample.beans"
-		level="INFO" additivity="false">
+	<logger name="com.ngini.music" level="INFO" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 
