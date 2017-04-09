@@ -28,7 +28,7 @@ public class MusicFileSaver {
     log.info(String.format("Save to [%s] complete.", parentDir.getPath()));
   }
   
-  public static String stripTextFromFileName(String oldFileName, String textToRemoveFromFileName) {
+  private static String stripTextFromFileName(String oldFileName, String textToRemoveFromFileName) {
     String newFileName = oldFileName;
     if (textToRemoveFromFileName.length() > 0) {
       log.trace(String.format("Current fileName: [%s], text to remove: [%s]", oldFileName, textToRemoveFromFileName));
