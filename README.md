@@ -3,6 +3,7 @@
 This is a Java Utility that can be used to updated MP3's in a specified folder
 ## What does it do?
 The tool can be used to:
+1. Remove a common unwanted string from all song file names
 1. Remove a common unwanted string from all song titles
 1. Update fields: 
     1. Album Artist

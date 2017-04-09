@@ -37,11 +37,19 @@ public class MusicModifierApplication {
           List<Mp3File> mp3Files = MusicFilePopulater.getMusicFiles(musicFolder);
           boolean clearUnwantedFields = handleUnwantedFields(keyboard, mp3Files);
           boolean updateSelectFields = handleUpdateSelectFields(keyboard, mp3Files);
-
-          if (clearUnwantedFields || updateSelectFields) {
+          
+          String textToRemoveFromFileNames = "";
+          System.out.print("Would you like to strip text from the file names? (Y/N): ");
+          boolean updateFileNames = positiveResponse(keyboard);
+          if (updateFileNames) {
+            System.out.print("String to strip from file names: ");
+            textToRemoveFromFileNames = keyboard.nextLine();
+          }
+          
+          if (clearUnwantedFields || updateSelectFields || updateFileNames) {
             File modifiedFolder = new File(musicFolder, "modified");
             modifiedFolder.mkdir();
-            MusicFileSaver.saveMusicFiles(modifiedFolder, mp3Files);
+            MusicFileSaver.saveMusicFiles(modifiedFolder, mp3Files, textToRemoveFromFileNames);
           }
 
         } catch (IOException | NotSupportedException e) {
@@ -58,7 +66,7 @@ public class MusicModifierApplication {
   }
 
   private static boolean handleUpdateSelectFields(Scanner keyboard, List<Mp3File> mp3Files) {
-    System.out.print("Would you like to update any fields? (Y/N): ");
+    System.out.print("Would you like to update any MP3 fields? (Y/N): ");
     boolean updateSelectFields = positiveResponse(keyboard);
     if (updateSelectFields) {
       MusicFields fields = getMusicFields(keyboard);
@@ -73,7 +81,7 @@ public class MusicModifierApplication {
   private static MusicFields getMusicFields(Scanner keyboard) {
     String albumArtist = getInput("Album artist", keyboard);
     String album = getInput("Album", keyboard);
-    String removeFromTitle = getInput("Enter string to strip from titles", keyboard);
+    String removeFromTitle = getInput("String to strip from titles", keyboard);
     String contributingArtist = getInput("Contributing artist", keyboard);
     String year = getInput("Album Year", keyboard);
     String genreDescription = getInput("Album Genre", keyboard);
