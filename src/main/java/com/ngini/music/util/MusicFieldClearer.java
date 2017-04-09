@@ -1,13 +1,13 @@
 package com.ngini.music.util;
 
+import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.Mp3File;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mpatric.mp3agic.ID3v1;
-import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.Mp3File;
 
 public class MusicFieldClearer {
   
@@ -93,7 +93,7 @@ public class MusicFieldClearer {
       fieldPopulated = checkIfPopulated("Payment URL", id3v2Tag.getPaymentUrl());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
       fieldPopulated = checkIfPopulated("Genre Description",id3v2Tag.getGenreDescription());
-     unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
+      unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
     }
     return unwantedFieldsPopulated;
   }

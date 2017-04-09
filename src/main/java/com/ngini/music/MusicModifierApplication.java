@@ -1,5 +1,13 @@
 package com.ngini.music;
 
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
+import com.ngini.music.model.MusicFields;
+import com.ngini.music.model.MusicFieldsFactory;
+import com.ngini.music.util.MusicFieldClearer;
+import com.ngini.music.util.MusicFieldUpdater;
+import com.ngini.music.util.MusicFilePopulater;
+import com.ngini.music.util.MusicFileSaver;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +18,6 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.ngini.music.model.MusicFields;
-import com.ngini.music.model.MusicFieldsFactory;
-import com.ngini.music.util.MusicFieldClearer;
-import com.ngini.music.util.MusicFieldUpdater;
-import com.ngini.music.util.MusicFilePopulater;
-import com.ngini.music.util.MusicFileSaver;
 
 public class MusicModifierApplication {
   private static final Logger log = LoggerFactory.getLogger(MusicModifierApplication.class);
@@ -87,7 +87,8 @@ public class MusicModifierApplication {
     String genreDescription = getInput("Album Genre", keyboard);
     // Disabled since album art set is not working.
     String albumArtFilePath = "" ; //getInput("Path to album art", keyboard);
-    MusicFields fields = MusicFieldsFactory.getMusicFields(albumArtist, album, contributingArtist, year,
+    MusicFields fields = MusicFieldsFactory.getMusicFields(
+        albumArtist, album, contributingArtist, year,
         genreDescription, albumArtFilePath, removeFromTitle);
     return fields;
   }
@@ -115,11 +116,11 @@ public class MusicModifierApplication {
   }
   
   private static void printAsciiArt() {
-    BufferedReader in = new BufferedReader(new InputStreamReader
-      (MusicModifierApplication.class.getClassLoader().getResourceAsStream("asciiArt.txt")));
+    BufferedReader in = new BufferedReader(new InputStreamReader(
+        MusicModifierApplication.class.getClassLoader().getResourceAsStream("asciiArt.txt")));
     String line = null;
     try {
-      while((line = in.readLine()) != null) {
+      while ((line = in.readLine()) != null) {
         System.out.println(line);
       }
     } catch (IOException e1) {

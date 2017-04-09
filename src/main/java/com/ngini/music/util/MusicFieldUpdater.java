@@ -1,5 +1,10 @@
 package com.ngini.music.util;
 
+import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v1Genres;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.Mp3File;
+import com.ngini.music.model.MusicFields;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -7,11 +12,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mpatric.mp3agic.ID3v1;
-import com.mpatric.mp3agic.ID3v1Genres;
-import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.Mp3File;
-import com.ngini.music.model.MusicFields;
 
 public class MusicFieldUpdater {
   
@@ -62,7 +62,9 @@ public class MusicFieldUpdater {
   private static void stripTextFromTitle(ID3v1 tag, MusicFields fields) {
     String oldTitle = tag.getTitle();
     String removeFromTitle = fields.getRemoveFromTitle();
-    log.trace(String.format("Current title: [%s], text to remove: [%s]", oldTitle, removeFromTitle));
+    log.trace(String.format(
+        "Current title: [%s], text to remove: [%s]",
+        oldTitle, removeFromTitle));
     if (oldTitle.contains(removeFromTitle)) {
       String newTitle = oldTitle.replace(removeFromTitle, "");
       tag.setTitle(newTitle);
@@ -72,9 +74,11 @@ public class MusicFieldUpdater {
 
   private static void setAlbumImage(ID3v2 tag, MusicFields fields) {
     try {
-      tag.setAlbumImage(Files.readAllBytes(fields.getAlbumArt().toPath()), Files.probeContentType(fields.getAlbumArt().toPath()));
+      tag.setAlbumImage(
+          Files.readAllBytes(fields.getAlbumArt().toPath()),
+          Files.probeContentType(fields.getAlbumArt().toPath()));
     } catch (IOException e) {
-     log.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
     }
   }
 
