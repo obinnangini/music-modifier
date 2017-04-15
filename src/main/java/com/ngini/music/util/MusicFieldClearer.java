@@ -88,7 +88,7 @@ public class MusicFieldClearer {
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
       fieldPopulated = checkIfPopulated("iTunes Comment", id3v2Tag.getItunesComment());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
-      fieldPopulated = checkIfPopulated("Part of a Compilation", id3v2Tag.isCompilation());
+      fieldPopulated = checkIfTrue("Part of a Compilation", id3v2Tag.isCompilation());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
       fieldPopulated = checkIfPopulated("Payment URL", id3v2Tag.getPaymentUrl());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
@@ -99,16 +99,16 @@ public class MusicFieldClearer {
   }
 
   public static boolean checkIfPopulated(String fieldName, String fieldValue) {
-    if (fieldValue != null) {
+    if (fieldValue != null && fieldValue.trim().length() > 0) {
       log.trace(String.format("[%s] has a value: [%s]", fieldName, fieldValue));
       return true;
     }
     return false;
   }
 
-  public static boolean checkIfPopulated(String fieldName, boolean fieldValue) {
+  public static boolean checkIfTrue(String fieldName, boolean fieldValue) {
     if (fieldValue) {
-      log.warn(String.format("[%s] has a value: %b", fieldName, fieldValue));
+      log.trace(String.format("[%s] is true: %b", fieldName, fieldValue));
       return true;
     }
     return false;

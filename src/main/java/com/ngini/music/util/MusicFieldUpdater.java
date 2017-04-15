@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class MusicFieldUpdater {
   
-  private static final Logger log      = LoggerFactory.getLogger(MusicFieldUpdater.class);
+  private static final Logger log = LoggerFactory.getLogger(MusicFieldUpdater.class);
   
   public static void setFields(List<Mp3File> mp3Files, MusicFields fields) {
     log.info("Updating field values.");
@@ -29,7 +29,7 @@ public class MusicFieldUpdater {
     log.info("Updating complete.");
   }
 
-  private static void setFields(ID3v1 tag, MusicFields fields) {
+  public static void setFields(ID3v1 tag, MusicFields fields) {
     if (fields.getRemoveFromTitle().length() > 0) {
       String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
       tag.setTitle(newTitle);
@@ -60,7 +60,7 @@ public class MusicFieldUpdater {
     }
   }
 
-  private static void setAlbumImage(ID3v2 tag, MusicFields fields) {
+  public static void setAlbumImage(ID3v2 tag, MusicFields fields) {
     try {
       tag.setAlbumImage(
           Files.readAllBytes(fields.getAlbumArt().toPath()),
