@@ -81,7 +81,8 @@ public class MusicModifierApplication {
   private static MusicFields getMusicFields(Scanner keyboard) {
     String albumArtist = getInput("Album artist", keyboard);
     String album = getInput("Album", keyboard);
-    String removeFromTitle = getInput("String to strip from titles", keyboard);
+    System.out.print(String.format("[%s]: ", "String to strip from titles"));
+    String removeFromTitle =  keyboard.nextLine();
     String contributingArtist = getInput("Contributing artist", keyboard);
     String year = getInput("Album Year", keyboard);
     String genreDescription = getInput("Album Genre", keyboard);

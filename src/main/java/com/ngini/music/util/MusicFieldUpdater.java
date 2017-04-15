@@ -31,7 +31,8 @@ public class MusicFieldUpdater {
 
   private static void setFields(ID3v1 tag, MusicFields fields) {
     if (fields.getRemoveFromTitle().length() > 0) {
-      stripTextFromTitle(tag, fields);
+      String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
+      tag.setTitle(newTitle);
     }
     if (fields.getAlbum().length() > 0) {
       tag.setAlbum(fields.getAlbum());
@@ -56,19 +57,6 @@ public class MusicFieldUpdater {
       if (fields.getAlbumArt() != null) {
         setAlbumImage(id3v2Tag, fields);
       }
-    }
-  }
-
-  private static void stripTextFromTitle(ID3v1 tag, MusicFields fields) {
-    String oldTitle = tag.getTitle();
-    String removeFromTitle = fields.getRemoveFromTitle();
-    log.trace(String.format(
-        "Current title: [%s], text to remove: [%s]",
-        oldTitle, removeFromTitle));
-    if (oldTitle.contains(removeFromTitle)) {
-      String newTitle = oldTitle.replace(removeFromTitle, "");
-      tag.setTitle(newTitle);
-      log.trace(String.format("Old title [%s] will be set to new title [%s]", oldTitle, newTitle));
     }
   }
 

@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 
 public class MusicFilePopulater {
 
-  private static Set<String>  EXTENSIONS  = new HashSet<String>(Arrays.asList("mp3"));
+  private static Set<String> EXTENSIONS  = new HashSet<String>(Arrays.asList("mp3"));
 
-  private static final Logger log      = LoggerFactory.getLogger(MusicFilePopulater.class);
+  private static final Logger log = LoggerFactory.getLogger(MusicFilePopulater.class);
 
   public static List<Mp3File> getMusicFiles(File dir) throws IOException {
     List<Mp3File> mp3Files = new ArrayList<>();

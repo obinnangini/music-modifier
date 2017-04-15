@@ -27,52 +27,56 @@ public class MusicFieldsFactory {
     fields.setAlbumArtist(albumArtist);
     fields.setAlbum(album);
     fields.setContributingArtist(contributingArtist);
+    fields.setRemoveFromTitle(removeFromTitle);
+    
+    fields.setAlbumArt(getAlbumFilePath(albumArtFilePath));
+    fields.setYear(getYear(year));
+    fields.setGenreDescription(getGenreDesc(genreDescription));
 
-    if (year.length() > 0) {
-      try {
-        Integer.parseInt(year);
-        fields.setYear(year);
-      } catch (NumberFormatException e) {
-        log.error(String.format("[%s] is not a valid Year!", year), e);
-      }
-    } else {
-      fields.setYear(EMPTY_STRING);
-    }
+    return fields;
+  }
 
-    if (genreDescription.length() > 0) {
-      if (GENRES.contains(genreDescription)) {
-        fields.setGenreDescription(genreDescription);
-      } else {
-        log.error(String.format("[%s] is not a valid Genre!", genreDescription));
-      }
-    } else {
-      fields.setGenreDescription(EMPTY_STRING);
-    }
-
+  public static File getAlbumFilePath(String albumArtFilePath) {
     if (albumArtFilePath.length() > 0) {
       File file = new File(albumArtFilePath);
       if (file.exists()) {
         String mimetype = new MimetypesFileTypeMap().getContentType(file);
         String type = mimetype.split("/")[0];
         if (type.equals("image")) {
-          fields.setAlbumArt(file);
+          return file;
         } else {
           log.warn(String.format(
               "[%s] is not a valid image file! Will not set album art",
               albumArtFilePath));
-          fields.setAlbumArt(null);
         }
       } else {
         log.warn(String.format("[%s] does not exist! Will not set album art", albumArtFilePath));
-        fields.setAlbumArt(null);
       }
-    } else {
-      fields.setAlbumArt(null);
     }
+    return null;
+  }
 
-    fields.setRemoveFromTitle(removeFromTitle);
+  public static String getGenreDesc(String genreDescription) {
+    if (genreDescription.length() > 0) {
+      if (GENRES.contains(genreDescription)) {
+        return genreDescription;
+      } else {
+        log.error(String.format("[%s] is not a valid Genre!", genreDescription));
+      }
+    }
+    return EMPTY_STRING;
+  }
 
-    return fields;
+  public static String getYear(String year) {
+    if (year.length() > 0) {
+      try {
+        Integer.parseInt(year);
+        return year;
+      } catch (NumberFormatException e) {
+        log.error(String.format("[%s] is not a valid Year!", year), e);
+      }
+    }
+    return EMPTY_STRING;
   }
 
 }
