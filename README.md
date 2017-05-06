@@ -25,10 +25,11 @@ The tool can be used to:
 ## How to Run
 1. Download the code base.
 
-* In the project root, run `mvn clean package` to generate an executable jar. Then run `java -jar .\target\music-modifier-{music.modifier.version}.jar`.
-Substitute {music.modifier.version} for version in the pom.xml
+* In the project root, run `mvn clean package` to generate an executable jar. 
+Then run `java -jar .\target\music-modifier-<project.version>-jar-with-dependencies.jar`
+For example: `java -jar .\target\music-modifier-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
 OR 
-* Import into your favorite IDE and launch the MusicModifierApplication class
+* Import into your favorite IDE and launch MusicModifierApplication.java
 
 ## How it works
 ID3v1 and ID3v2 tags are updated using the [mp3agic](https://github.com/mpatric/mp3agic) library
