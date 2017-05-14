@@ -48,8 +48,11 @@ public class MusicModifierApplication {
           
           if (clearUnwantedFields || updateSelectFields || updateFileNames) {
             File modifiedFolder = new File(musicFolder, "modified");
-            modifiedFolder.mkdir();
-            MusicFileSaver.saveMusicFiles(modifiedFolder, mp3Files, textToRemoveFromFileNames);
+            if (modifiedFolder.mkdir()) {
+              MusicFileSaver.saveMusicFiles(modifiedFolder, mp3Files, textToRemoveFromFileNames);
+            } else {
+              log.error(String.format("Error. Could not create directory [%s]", modifiedFolder.getAbsolutePath()));
+            }
           }
 
         } catch (IOException | NotSupportedException e) {
@@ -113,7 +116,7 @@ public class MusicModifierApplication {
 
   private static boolean positiveResponse(Scanner keyboard) {
     String line = keyboard.nextLine();
-    return line.length() > 0 ? Character.toLowerCase(line.trim().charAt(0)) == 'y' : false;
+    return line.length() > 0 && Character.toLowerCase(line.trim().charAt(0)) == 'y';
   }
   
   private static void printAsciiArt() {
