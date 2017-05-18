@@ -1,4 +1,4 @@
-package com.ngini.music.util;
+package com.ngini.music.service;
 
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
@@ -23,7 +23,7 @@ public class MusicFilePopulater {
 
   private static final Logger log = LoggerFactory.getLogger(MusicFilePopulater.class);
 
-  public static List<Mp3File> getMusicFiles(File dir) throws IOException {
+  public List<Mp3File> getMusicFiles(File dir) throws IOException {
     List<Mp3File> mp3Files = new ArrayList<>();
     log.info(String.format("Files found in [%s]: ", dir.getPath()));
     for (File file : dir.listFiles()) {

@@ -1,7 +1,9 @@
-package com.ngini.music.util;
+package com.ngini.music.service;
 
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.NotSupportedException;
+import com.ngini.music.util.Utils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +16,7 @@ public class MusicFileSaver {
 
   private static final Logger log = LoggerFactory.getLogger(MusicFileSaver.class);
   
-  public static void saveMusicFiles(
+  public void saveMusicFiles(
       File parentDir, List<Mp3File> mp3Files, String textToRemoveFromFileName)
       throws NotSupportedException, IOException {
     if (textToRemoveFromFileName.length() > 0) {

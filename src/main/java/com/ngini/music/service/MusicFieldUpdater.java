@@ -1,10 +1,12 @@
-package com.ngini.music.util;
+package com.ngini.music.service;
 
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v1Genres;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.Mp3File;
 import com.ngini.music.model.MusicFields;
+import com.ngini.music.util.Utils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -17,7 +19,7 @@ public class MusicFieldUpdater {
   
   private static final Logger log = LoggerFactory.getLogger(MusicFieldUpdater.class);
   
-  public static void setFields(List<Mp3File> mp3Files, MusicFields fields) {
+  public void setFields(List<Mp3File> mp3Files, MusicFields fields) {
     log.info("Updating field values.");
     for (Mp3File mp3File : mp3Files) {
       if (mp3File.hasId3v1Tag()) {
@@ -29,7 +31,7 @@ public class MusicFieldUpdater {
     log.info("Updating complete.");
   }
 
-  public static void setFields(ID3v1 tag, MusicFields fields) {
+  public void setFields(ID3v1 tag, MusicFields fields) {
     if (fields.getRemoveFromTitle().length() > 0) {
       String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
       tag.setTitle(newTitle);
@@ -60,7 +62,7 @@ public class MusicFieldUpdater {
     }
   }
 
-  public static void setAlbumImage(ID3v2 tag, MusicFields fields) {
+  public void setAlbumImage(ID3v2 tag, MusicFields fields) {
     try {
       tag.setAlbumImage(
           Files.readAllBytes(fields.getAlbumArt().toPath()),

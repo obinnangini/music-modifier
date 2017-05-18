@@ -1,4 +1,4 @@
-package com.ngini.music.util;
+package com.ngini.music.service;
 
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
@@ -15,7 +15,7 @@ public class MusicFieldClearer {
   
   private static final Logger log      = LoggerFactory.getLogger(MusicFieldClearer.class);
   
-  public static void clearOutUnwantedFields(List<Mp3File> mp3Files) {
+  public void clearOutUnwantedFields(List<Mp3File> mp3Files) {
     log.info("Clearing out unwanted fields.");
     for (Mp3File mp3File : mp3Files) {
       if (mp3File.hasId3v1Tag()) {
@@ -27,7 +27,7 @@ public class MusicFieldClearer {
     log.info("Unwanted fields cleared.");
   }
 
-  public static void clearOutUnwantedFields(ID3v1 tag) {
+  public void clearOutUnwantedFields(ID3v1 tag) {
     tag.setComment(BLANK_VALUE);
     
     if (tag instanceof ID3v2) {
@@ -49,7 +49,7 @@ public class MusicFieldClearer {
   }
 
 
-  public static boolean unwantedFieldsArePopulated(List<Mp3File> mp3Files) {
+  public boolean unwantedFieldsArePopulated(List<Mp3File> mp3Files) {
     boolean unwantedFieldsPopulated = false;
     for (Mp3File mp3File : mp3Files) {
       if (mp3File.hasId3v1Tag()) {
@@ -63,7 +63,7 @@ public class MusicFieldClearer {
     return unwantedFieldsPopulated;
   }
 
-  public static boolean unwantedFieldsArePopulated(ID3v1 tag) {
+  public boolean unwantedFieldsArePopulated(ID3v1 tag) {
     boolean unwantedFieldsPopulated = false ;
     log.trace("--------------------------------------------");
     boolean fieldPopulated = checkIfPopulated("Comment", tag.getComment());
@@ -98,7 +98,7 @@ public class MusicFieldClearer {
     return unwantedFieldsPopulated;
   }
 
-  public static boolean checkIfPopulated(String fieldName, String fieldValue) {
+  public boolean checkIfPopulated(String fieldName, String fieldValue) {
     if (fieldValue != null && fieldValue.trim().length() > 0) {
       log.trace(String.format("[%s] has a value: [%s]", fieldName, fieldValue));
       return true;
@@ -106,7 +106,7 @@ public class MusicFieldClearer {
     return false;
   }
 
-  public static boolean checkIfTrue(String fieldName, boolean fieldValue) {
+  public boolean checkIfTrue(String fieldName, boolean fieldValue) {
     if (fieldValue) {
       log.trace(String.format("[%s] is true: %b", fieldName, fieldValue));
       return true;
