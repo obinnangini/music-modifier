@@ -1,5 +1,11 @@
 package com.ngini.music.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +28,30 @@ public class Utils {
               text, newFileName));
         } else {
           log.warn(String.format(
-              "Removing [%s] from text [%s] will string empty! Skipping...",
+              "Removing [%s] from text [%s] will make string empty! Skipping...",
               text, substringToRemove));
         }
       }
     }
     return newFileName;
+  }
+  
+  
+  public static void printAsciiArt() {
+    Path asciiArtPath = Paths.get("src/main/resources", "asciiArt.txt");
+    try {
+      List<String> lines = Files.readAllLines(asciiArtPath);
+      for (String string : lines) {
+        System.out.println(string);
+      }
+    } catch (IOException e1) { }
+   
+//    try(BufferedReader in = new BufferedReader(new InputStreamReader(
+//        MusicModifierApplication.class.getClassLoader().getResourceAsStream("asciiArt.txt")))) {
+//      String line = null;
+//      while ((line = in.readLine()) != null) {
+//        System.out.println(line);
+//      }
+//    } catch (IOException e1) { }
   }
 }
