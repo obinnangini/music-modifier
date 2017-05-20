@@ -1,6 +1,8 @@
 package com.ngini.music.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,21 +44,13 @@ public class Utils {
   
   
   public static void printAsciiArt() {
-    Path asciiArtPath = Paths.get("src/main/resources", "asciiArt.txt");
-    try {
-      List<String> lines = Files.readAllLines(asciiArtPath);
-      for (String string : lines) {
-        System.out.println(string);
+    try(BufferedReader in = new BufferedReader(new InputStreamReader(
+        Utils.class.getClassLoader().getResourceAsStream("asciiArt.txt")))) {
+      String line = null;
+      while ((line = in.readLine()) != null) {
+        System.out.println(line);
       }
     } catch (IOException e1) { }
-   
-//    try(BufferedReader in = new BufferedReader(new InputStreamReader(
-//        MusicModifierApplication.class.getClassLoader().getResourceAsStream("asciiArt.txt")))) {
-//      String line = null;
-//      while ((line = in.readLine()) != null) {
-//        System.out.println(line);
-//      }
-//    } catch (IOException e1) { }
   }
   
   private void logDetails(Mp3File mp3file) {
