@@ -2,6 +2,7 @@ package com.ngini.music.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,7 +32,12 @@ public class MusicModifierService {
   
   public void run() {
     System.out.print("Please provide the path to a folder containing the music files: ");
-    Scanner keyboard = new Scanner(System.in);
+    handleInput(System.in);
+    log.info("Exiting....");
+  }
+
+  public void handleInput(InputStream in) {
+    Scanner keyboard = new Scanner(in);
     String line = keyboard.nextLine();
     String filePath = line.trim();
     String trimmedFilePath = filePath.replaceAll("^\"|\"$", "");
@@ -70,14 +76,13 @@ public class MusicModifierService {
       log.error(String.format("[%s] specified does not exist!", musicFolder));
     }
     keyboard.close();
-    log.info("Exiting....");
   }
 
-  private boolean handleUpdateSelectFields(Scanner keyboard, List<Mp3File> mp3Files) {
+  public boolean handleUpdateSelectFields(Scanner scanner, List<Mp3File> mp3Files) {
     System.out.print("Would you like to update any MP3 fields? (Y/N): ");
-    boolean updateSelectFields = positiveResponse(keyboard);
+    boolean updateSelectFields = positiveResponse(scanner);
     if (updateSelectFields) {
-      MusicFields fields = getMusicFields(keyboard);
+      MusicFields fields = getMusicFields(scanner);
       if (fields.isEmpty()) {
         return false;
       }
@@ -86,14 +91,14 @@ public class MusicModifierService {
     return updateSelectFields;
   }
 
-  private MusicFields getMusicFields(Scanner keyboard) {
-    String albumArtist = getInput("Album artist", keyboard);
-    String album = getInput("Album", keyboard);
+  public MusicFields getMusicFields(Scanner scanner) {
+    String albumArtist = getInput("Album artist", scanner);
+    String album = getInput("Album", scanner);
     System.out.print(String.format("[%s]: ", "String to strip from titles"));
-    String removeFromTitle =  keyboard.nextLine();
-    String contributingArtist = getInput("Contributing artist", keyboard);
-    String year = getInput("Album Year", keyboard);
-    String genreDescription = getInput("Album Genre", keyboard);
+    String removeFromTitle =  scanner.nextLine();
+    String contributingArtist = getInput("Contributing artist", scanner);
+    String year = getInput("Album Year", scanner);
+    String genreDescription = getInput("Album Genre", scanner);
     // Disabled since album art set is not working.
     String albumArtFilePath = "" ; //getInput("Path to album art", keyboard);
     MusicFields fields = MusicFieldsFactory.getMusicFields(
@@ -102,11 +107,11 @@ public class MusicModifierService {
     return fields;
   }
 
-  private boolean handleUnwantedFields(Scanner keyboard, List<Mp3File> mp3Files) {
+  public boolean handleUnwantedFields(Scanner scanner, List<Mp3File> mp3Files) {
     boolean clearUnwantedFields = false;
     if (getClearer().unwantedFieldsArePopulated(mp3Files)) {
       System.out.print("Unwanted fields can be cleared out. Continue? (Y/N): ");
-      clearUnwantedFields = positiveResponse(keyboard);
+      clearUnwantedFields = positiveResponse(scanner);
       if (clearUnwantedFields) {
         getClearer().clearOutUnwantedFields(mp3Files);
       }
@@ -114,13 +119,13 @@ public class MusicModifierService {
     return clearUnwantedFields;
   }
 
-  private String getInput(String fieldName, Scanner keyboard) {
+  public String getInput(String fieldName, Scanner scanner) {
     System.out.print(String.format("[%s]: ", fieldName));
-    return keyboard.nextLine().trim();
+    return scanner.nextLine().trim();
   }
 
-  private boolean positiveResponse(Scanner keyboard) {
-    String line = keyboard.nextLine();
+  public boolean positiveResponse(Scanner scanner) {
+    String line = scanner.nextLine();
     return line.length() > 0 && Character.toLowerCase(line.trim().charAt(0)) == 'y';
   }
 

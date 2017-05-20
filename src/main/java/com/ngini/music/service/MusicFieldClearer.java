@@ -13,7 +13,7 @@ public class MusicFieldClearer {
   
   private static final String BLANK_VALUE = " ";
   
-  private static final Logger log      = LoggerFactory.getLogger(MusicFieldClearer.class);
+  private static final Logger log = LoggerFactory.getLogger(MusicFieldClearer.class);
   
   public void clearOutUnwantedFields(List<Mp3File> mp3Files) {
     log.info("Clearing out unwanted fields.");
