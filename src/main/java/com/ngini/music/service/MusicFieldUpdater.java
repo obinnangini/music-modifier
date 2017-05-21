@@ -1,18 +1,18 @@
 package com.ngini.music.service;
 
-import com.mpatric.mp3agic.ID3v1;
-import com.mpatric.mp3agic.ID3v1Genres;
-import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.Mp3File;
-import com.ngini.music.model.MusicFields;
-import com.ngini.music.util.Utils;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v1Genres;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.Mp3File;
+import com.ngini.music.model.MusicFields;
+import com.ngini.music.util.Utils;
 
 
 public class MusicFieldUpdater {

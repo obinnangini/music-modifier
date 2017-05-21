@@ -1,7 +1,7 @@
 package com.ngini.music.service;
 
-import static org.easymock.EasyMock.mock;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.mock;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.fail;
 

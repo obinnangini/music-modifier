@@ -1,6 +1,5 @@
 package com.ngini.music.model;
 
-import com.mpatric.mp3agic.ID3v1Genres;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +8,8 @@ import javax.activation.MimetypesFileTypeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mpatric.mp3agic.ID3v1Genres;
 
 
 public class MusicFieldsFactory {
