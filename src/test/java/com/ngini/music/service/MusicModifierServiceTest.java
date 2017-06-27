@@ -57,6 +57,11 @@ public class MusicModifierServiceTest {
     replay(populator, saver, service);
     
     service.handleInput(in);
+
+    File modifiedDir = new File(tmpDirPath, "modified");
+    if(modifiedDir.exists()) {
+      modifiedDir.delete();
+    }
   }
 
   @SuppressWarnings("unchecked")
