@@ -109,7 +109,7 @@ public class MusicFieldClearer {
 
   public boolean checkIfTrue(String fieldName, boolean fieldValue) {
     if (fieldValue) {
-      log.trace(String.format("[%s] is true: %b", fieldName, fieldValue));
+      log.trace(String.format("[%s] is true", fieldName));
       return true;
     }
     return false;

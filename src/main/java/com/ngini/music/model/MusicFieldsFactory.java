@@ -41,8 +41,8 @@ public class MusicFieldsFactory {
     if (albumArtFilePath.length() > 0) {
       File file = new File(albumArtFilePath);
       if (file.exists()) {
-        String mimetype = new MimetypesFileTypeMap().getContentType(file);
-        String type = mimetype.split("/")[0];
+        String mimeType = new MimetypesFileTypeMap().getContentType(file);
+        String type = mimeType.split("/")[0];
         if (type.equals("image")) {
           return file;
         } else {

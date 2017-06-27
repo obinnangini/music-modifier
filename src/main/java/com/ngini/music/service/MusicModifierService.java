@@ -18,13 +18,13 @@ public class MusicModifierService {
 
   private static final Logger log = LoggerFactory.getLogger(MusicModifierService.class);
   
-  private MusicFilePopulater populator;
+  private MusicFilePopulator populator;
   private MusicFieldClearer clearer;
   private MusicFieldUpdater updater;
   private MusicFileSaver saver;
   
   public MusicModifierService() {
-    populator = new MusicFilePopulater();
+    populator = new MusicFilePopulator();
     clearer = new MusicFieldClearer();
     updater = new MusicFieldUpdater();
     saver = new MusicFileSaver();
@@ -101,10 +101,9 @@ public class MusicModifierService {
     String genreDescription = getInput("Album Genre", scanner);
     // Disabled since album art set is not working.
     String albumArtFilePath = "" ; //getInput("Path to album art", keyboard);
-    MusicFields fields = MusicFieldsFactory.getMusicFields(
+    return MusicFieldsFactory.getMusicFields(
         albumArtist, album, contributingArtist, year,
         genreDescription, albumArtFilePath, removeFromTitle);
-    return fields;
   }
 
   public boolean handleUnwantedFields(Scanner scanner, List<Mp3File> mp3Files) {
@@ -129,7 +128,7 @@ public class MusicModifierService {
     return line.length() > 0 && Character.toLowerCase(line.trim().charAt(0)) == 'y';
   }
 
-  public MusicFilePopulater getPopulator() {
+  public MusicFilePopulator getPopulator() {
     return populator;
   }
 

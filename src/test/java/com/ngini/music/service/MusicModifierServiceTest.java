@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.mpatric.mp3agic.NotSupportedException;
 import org.junit.Test;
 
 import com.mpatric.mp3agic.Mp3File;
@@ -25,7 +26,7 @@ public class MusicModifierServiceTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testHandleInput() throws IOException {
+  public void testHandleInput() throws IOException, NotSupportedException {
     String tmpDirPath = System.getProperty("java.io.tmpdir");
     ByteArrayInputStream in = new ByteArrayInputStream((tmpDirPath +"\n  Yeow\nyeow\nf\n\n\n\n\n\n\n\n").getBytes());
     
@@ -37,7 +38,7 @@ public class MusicModifierServiceTest {
         .addMockedMethod("positiveResponse")
         .createMock();
     
-    MusicFilePopulater populator = mock(MusicFilePopulater.class);
+    MusicFilePopulator populator = mock(MusicFilePopulator.class);
     MusicFileSaver saver = mock(MusicFileSaver.class);
     
     expect(populator.getMusicFiles(isA(File.class)))
@@ -50,7 +51,9 @@ public class MusicModifierServiceTest {
 
     expect(service.positiveResponse(isA(Scanner.class))).andReturn(false);
 
-    
+    saver.saveMusicFiles(isA(File.class), isA(List.class), isA(String.class));
+    expectLastCall();
+
     replay(populator, saver, service);
     
     service.handleInput(in);

@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-public class MusicFilePopulaterTest {
+public class MusicFilePopulatorTest {
 
   @Test
   public void testGetMusicFiles() {
@@ -34,7 +34,7 @@ public class MusicFilePopulaterTest {
     replay(dir, musicFile1, musicFile2);
     
     try {
-      new MusicFilePopulater().getMusicFiles(dir);
+      new MusicFilePopulator().getMusicFiles(dir);
       fail();
     } catch (IOException e) { }
   }
