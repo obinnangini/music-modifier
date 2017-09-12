@@ -16,6 +16,9 @@ public class Utils {
   private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
   public static String stripSubstringFromText(String text, String substringToRemove) {
+    if(text == null) {
+      return "";
+    }
     String newFileName = text;
     if (substringToRemove.length() > 0) {
       log.trace(String.format(
