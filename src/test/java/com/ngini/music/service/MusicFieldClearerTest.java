@@ -96,15 +96,21 @@ public class MusicFieldClearerTest {
     ID3v2 id3v2Tag = new ID3v22Tag();
     expect(mp3File2.getId3v2Tag()).andReturn(id3v2Tag);
     
+    Mp3File mp3File3 = mock(Mp3File.class);
+    expect(mp3File3.hasId3v1Tag()).andReturn(false);
+    expect(mp3File3.hasId3v2Tag()).andReturn(false);
+    expect(mp3File3.getFilename()).andReturn("File with no tag");
+    
     List<Mp3File> mp3Files = new ArrayList<>();
     mp3Files.add(mp3File1);
     mp3Files.add(mp3File2);
+    mp3Files.add(mp3File3);
     
-    replay(mp3File1, mp3File2);
+    replay(mp3File1, mp3File2, mp3File3);
     
     new MusicFieldClearer().unwantedFieldsArePopulated(mp3Files);
     
-    verify(mp3File1, mp3File2);
+    verify(mp3File1, mp3File2, mp3File3);
   }
 
   @Test
