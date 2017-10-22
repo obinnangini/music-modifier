@@ -1,5 +1,8 @@
 # Music Modifier
 
+[![Build Status](https://travis-ci.org/obinnangini/music-modifier.svg?branch=master)](https://travis-ci.org/obinnangini/music-modifier)
+[![Coverage Status](https://coveralls.io/repos/github/obinnangini/music-modifier/badge.svg?branch=master)](https://coveralls.io/github/obinnangini/music-modifier?branch=master)
+
 This is a Java Utility that can be used to updated MP3's in a specified folder
 ## What does it do?
 The tool can be used to:
