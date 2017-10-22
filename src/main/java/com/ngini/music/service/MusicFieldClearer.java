@@ -59,6 +59,8 @@ public class MusicFieldClearer {
       } else if (mp3File.hasId3v2Tag()) {
         boolean unwanted = unwantedFieldsArePopulated(mp3File.getId3v2Tag());
         unwantedFieldsPopulated = unwantedFieldsPopulated || unwanted;
+      } else {
+        log.error(String.format("No music tag found for file: %s", mp3File.getFilename()));
       }
     }
     return unwantedFieldsPopulated;
@@ -69,7 +71,6 @@ public class MusicFieldClearer {
     log.trace("--------------------------------------------");
     boolean fieldPopulated = checkIfPopulated("Comment", tag.getComment());
     unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
-    log.trace("--------------------------------------------");
     
     if (tag instanceof ID3v2) {
       ID3v2 id3v2Tag = (ID3v2) tag;
@@ -96,6 +97,7 @@ public class MusicFieldClearer {
       fieldPopulated = checkIfPopulated("Genre Description",id3v2Tag.getGenreDescription());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
     }
+    log.trace("--------------------------------------------");
     return unwantedFieldsPopulated;
   }
 

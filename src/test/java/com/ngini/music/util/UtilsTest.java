@@ -19,5 +19,10 @@ public class UtilsTest {
     String title = "- Text To Remove";
     assertEquals(title, Utils.stripSubstringFromText(title, title));
   }
+  
+  @Test
+  public void testStripSubstringFromTextNullValue() {
+    assertEquals("", Utils.stripSubstringFromText(null, "text"));
+  }
 
 }
