@@ -1,0 +1,13 @@
+version: 1.0.{build}-{branch}
+skip_tags: true
+max_jobs: 1
+clone_depth: 5
+install:
+  - cinst install jdk8
+  - cinst install maven
+  - refreshenv
+build_script:
+  - mvn clean verify
+cache:
+  - C:\maven\
+  - C:\Users\appveyor\.m2
