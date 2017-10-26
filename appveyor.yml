@@ -3,8 +3,8 @@ skip_tags: true
 max_jobs: 1
 clone_depth: 5
 install:
-  - cinst install jdk8
-  - cinst install maven
+  - cinst jdk8
+  - cinst maven
   - refreshenv
 build_script:
   - mvn clean verify
