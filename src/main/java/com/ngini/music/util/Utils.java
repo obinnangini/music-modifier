@@ -16,7 +16,7 @@ public class Utils {
   private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
   public static String stripSubstringFromText(String text, String substringToRemove) {
-    if(text == null) {
+    if (text == null) {
       return "";
     }
     String newFileName = text;
@@ -43,7 +43,7 @@ public class Utils {
   
   
   public static void printAsciiArt() {
-    try(BufferedReader in = new BufferedReader(new InputStreamReader(
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(
         Utils.class.getClassLoader().getResourceAsStream("asciiArt.txt")))) {
       String line = null;
       while ((line = in.readLine()) != null) {

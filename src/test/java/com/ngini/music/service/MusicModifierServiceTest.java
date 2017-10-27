@@ -1,4 +1,5 @@
 package com.ngini.music.service;
+
 import static org.easymock.EasyMock.createMockBuilder;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -26,10 +27,7 @@ public class MusicModifierServiceTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testHandleInput() throws IOException, NotSupportedException {
-    String tmpDirPath = System.getProperty("java.io.tmpdir");
-    ByteArrayInputStream in = new ByteArrayInputStream((tmpDirPath +"\n  Yeow\nyeow\nf\n\n\n\n\n\n\n\n").getBytes());
-    
+  public void testHandleInput() throws IOException, NotSupportedException {   
     MusicModifierService service = createMockBuilder(MusicModifierService.class)
         .addMockedMethod("getPopulator")
         .addMockedMethod("getSaver")
@@ -42,7 +40,7 @@ public class MusicModifierServiceTest {
     MusicFileSaver saver = mock(MusicFileSaver.class);
     
     expect(populator.getMusicFiles(isA(File.class)))
-    .andReturn(new ArrayList<Mp3File>());
+      .andReturn(new ArrayList<Mp3File>());
     
     expect(service.getPopulator()).andReturn(populator);
     expect(service.getSaver()).andReturn(saver);
@@ -56,19 +54,19 @@ public class MusicModifierServiceTest {
 
     replay(populator, saver, service);
     
+    String tmpDirPath = System.getProperty("java.io.tmpdir");
+    ByteArrayInputStream in = new ByteArrayInputStream((tmpDirPath + "\n  Yeow\nyeow\nf\n\n\n\n\n\n\n\n").getBytes());
     service.handleInput(in);
 
     File modifiedDir = new File(tmpDirPath, "modified");
-    if(modifiedDir.exists()) {
+    if (modifiedDir.exists()) {
       modifiedDir.delete();
     }
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testHandleUpdateSelectFields() {
-    ByteArrayInputStream in = new ByteArrayInputStream("  Yeow\nyeow\nf\n\n\n\n\n\n\n\n".getBytes());
-    
+  public void testHandleUpdateSelectFields() {  
     MusicModifierService service = createMockBuilder(MusicModifierService.class)
         .addMockedMethod("getUpdater")
         .createMock();
@@ -81,8 +79,8 @@ public class MusicModifierServiceTest {
     
     replay(updater, service);
     
-    assertTrue(service.
-        handleUpdateSelectFields(new Scanner(in), new ArrayList<Mp3File>()));
+    ByteArrayInputStream in = new ByteArrayInputStream("  Yeow\nyeow\nf\n\n\n\n\n\n\n\n".getBytes());
+    assertTrue(service.handleUpdateSelectFields(new Scanner(in), new ArrayList<Mp3File>()));
   }
 
   @Test
@@ -96,23 +94,22 @@ public class MusicModifierServiceTest {
   
   @SuppressWarnings("unchecked")
   @Test
-  public void testHandleUnwantedFieldsTrue() {
-    MusicModifierService service = createMockBuilder(MusicModifierService.class)
-        .addMockedMethod("positiveResponse")
-        .addMockedMethod("getClearer")
-        .createMock();
-    
+  public void testHandleUnwantedFieldsTrue() { 
     MusicFieldClearer clearer = mock(MusicFieldClearer.class);
     expect(clearer.unwantedFieldsArePopulated((List<Mp3File>) isA(List.class))).andReturn(true);
     clearer.clearOutUnwantedFields(((List<Mp3File>) isA(List.class)));
     expectLastCall();
     
+    MusicModifierService service = createMockBuilder(MusicModifierService.class)
+        .addMockedMethod("positiveResponse")
+        .addMockedMethod("getClearer")
+        .createMock();
+    
     expect(service.positiveResponse(isA(Scanner.class))).andReturn(true);
     expect(service.getClearer()).andReturn(clearer).times(2);
     replay(clearer, service);
     
-    assertTrue(service.
-        handleUnwantedFields(new Scanner(System.in), new ArrayList<Mp3File>()));
+    assertTrue(service.handleUnwantedFields(new Scanner(System.in), new ArrayList<Mp3File>()));
   }
 
   @SuppressWarnings("unchecked")
@@ -130,8 +127,7 @@ public class MusicModifierServiceTest {
     expect(service.getClearer()).andReturn(clearer);
     replay(clearer, service);
     
-    assertFalse(service.
-        handleUnwantedFields(new Scanner(System.in), new ArrayList<Mp3File>()));
+    assertFalse(service.handleUnwantedFields(new Scanner(System.in), new ArrayList<Mp3File>()));
   }
 
   @Test
@@ -146,7 +142,6 @@ public class MusicModifierServiceTest {
   @Test
   public void testPositiveResponse() {
     ByteArrayInputStream in = new ByteArrayInputStream("Bad\nYeow\nyeow\nf".getBytes());
-    Scanner scanner = new Scanner(in);
     
     MusicModifierService service = new MusicModifierService();
     service.getPopulator();
@@ -154,6 +149,7 @@ public class MusicModifierServiceTest {
     service.getUpdater();
     service.getSaver();
     
+    Scanner scanner = new Scanner(in);
     assertFalse(new MusicModifierService().positiveResponse(scanner));
     assertTrue(new MusicModifierService().positiveResponse(scanner));
     assertTrue(new MusicModifierService().positiveResponse(scanner));
