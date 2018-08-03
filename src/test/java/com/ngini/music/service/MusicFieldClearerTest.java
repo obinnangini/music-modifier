@@ -25,15 +25,14 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 public class MusicFieldClearerTest {
 
   @Test
-  public void testClearOutUnwantedFieldsListOfMp3File() 
-      throws UnsupportedTagException, InvalidDataException, IOException {
+  public void testClearOutUnwantedFieldsListOfMp3File() {
     Mp3File mp3File1 = mock(Mp3File.class);
+    expect(mp3File1.hasId3v2Tag()).andReturn(false);
     expect(mp3File1.hasId3v1Tag()).andReturn(true);
     ID3v1 id3v1Tag = new ID3v1Tag();
     expect(mp3File1.getId3v1Tag()).andReturn(id3v1Tag);
     
     Mp3File mp3File2 = mock(Mp3File.class);
-    expect(mp3File2.hasId3v1Tag()).andReturn(false);
     expect(mp3File2.hasId3v2Tag()).andReturn(true);
     ID3v2 id3v2Tag = new ID3v22Tag();
     expect(mp3File2.getId3v2Tag()).andReturn(id3v2Tag);
@@ -50,10 +49,10 @@ public class MusicFieldClearerTest {
   }
 
   @Test
-  public void testClearOutUnwantedFieldsID3v1() {
+  public void testClearOutUnwantedFieldsID3v2() {
     ID3v2 id3v2Tag = new ID3v22Tag();
     String fieldValue = "to be removed";
-     
+
     id3v2Tag.setComment(fieldValue);
     id3v2Tag.setArtistUrl(fieldValue);
     id3v2Tag.setEncoder(fieldValue);
@@ -65,15 +64,15 @@ public class MusicFieldClearerTest {
     id3v2Tag.setPaymentUrl(fieldValue);
     id3v2Tag.setPublisher(fieldValue);
     id3v2Tag.setPublisherUrl(fieldValue);
-     
+
     new MusicFieldClearer().clearOutUnwantedFields(id3v2Tag);
-    
+
     String blankValue = " ";
     assertEquals(blankValue, id3v2Tag.getComment());
     assertEquals(blankValue, id3v2Tag.getArtistUrl());
     assertEquals(blankValue, id3v2Tag.getEncoder());
     assertEquals(blankValue, id3v2Tag.getComposer());
-    assertEquals(false, id3v2Tag.isCompilation());
+    assertFalse(id3v2Tag.isCompilation());
     assertEquals(blankValue, id3v2Tag.getItunesComment());
     assertEquals(blankValue, id3v2Tag.getCopyright());
     assertEquals(blankValue, id3v2Tag.getCopyrightUrl());
@@ -83,15 +82,23 @@ public class MusicFieldClearerTest {
   }
 
   @Test
+  public void testClearOutUnwantedFieldsID3v1() {
+    ID3v1 id3v1Tag = new ID3v1Tag();
+    id3v1Tag.setComment("to be removed");
+    new MusicFieldClearer().clearOutUnwantedFields(id3v1Tag);
+    assertEquals(" ", id3v1Tag.getComment());
+  }
+
+  @Test
   public void testUnwantedFieldsArePopulatedListOfMp3File() {
     
     Mp3File mp3File1 = mock(Mp3File.class);
+    expect(mp3File1.hasId3v2Tag()).andReturn(false);
     expect(mp3File1.hasId3v1Tag()).andReturn(true);
     ID3v1 id3v1Tag = new ID3v1Tag();
     expect(mp3File1.getId3v1Tag()).andReturn(id3v1Tag);
     
     Mp3File mp3File2 = mock(Mp3File.class);
-    expect(mp3File2.hasId3v1Tag()).andReturn(false);
     expect(mp3File2.hasId3v2Tag()).andReturn(true);
     ID3v2 id3v2Tag = new ID3v22Tag();
     expect(mp3File2.getId3v2Tag()).andReturn(id3v2Tag);
@@ -108,7 +115,7 @@ public class MusicFieldClearerTest {
     
     replay(mp3File1, mp3File2, mp3File3);
     
-    new MusicFieldClearer().unwantedFieldsArePopulated(mp3Files);
+    assertFalse(new MusicFieldClearer().unwantedFieldsArePopulated(mp3Files));
     
     verify(mp3File1, mp3File2, mp3File3);
   }
