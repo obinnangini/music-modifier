@@ -15,23 +15,23 @@ import com.ngini.music.model.MusicFields;
 import com.ngini.music.util.Utils;
 
 
-public class MusicFieldUpdater {
-  
-  private static final Logger log = LoggerFactory.getLogger(MusicFieldUpdater.class);
-  
-  public void setFields(List<Mp3File> mp3Files, MusicFields fields) {
-    log.info("Updating field values.");
+class MusicFieldUpdater {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MusicFieldUpdater.class);
+
+  void setFields(List<Mp3File> mp3Files, MusicFields fields) {
+    LOGGER.info("Updating field values.");
     for (Mp3File mp3File : mp3Files) {
-      if (mp3File.hasId3v1Tag()) {
-        setFields(mp3File.getId3v1Tag(), fields);
-      } else if (mp3File.hasId3v2Tag()) {
+      if (mp3File.hasId3v2Tag()) {
         setFields(mp3File.getId3v2Tag(), fields);
+      } else if (mp3File.hasId3v1Tag()) {
+        setFields(mp3File.getId3v1Tag(), fields);
       }
     }
-    log.info("Updating complete.");
+    LOGGER.info("Updating complete.");
   }
 
-  public void setFields(ID3v1 tag, MusicFields fields) {
+  void setFields(ID3v1 tag, MusicFields fields) {
     if (fields.getRemoveFromTitle().length() > 0) {
       String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
       tag.setTitle(newTitle);
@@ -48,27 +48,43 @@ public class MusicFieldUpdater {
     if (fields.getYear().length() > 0) {
       tag.setYear(fields.getYear());
     }
-    
-    if (tag instanceof ID3v2) {
-      ID3v2 id3v2Tag = (ID3v2) tag;
-      if (fields.getAlbumArtist().length() > 0) {
-        id3v2Tag.setAlbumArtist(fields.getAlbumArtist());
-      }
+  }
 
-      // Currently not working
-      if (fields.getAlbumArt() != null) {
-        setAlbumImage(id3v2Tag, fields);
-      }
+  void setFields(ID3v2 tag, MusicFields fields) {
+    if (fields.getRemoveFromTitle().length() > 0) {
+      String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
+      tag.setTitle(newTitle);
+    }
+    if (fields.getAlbum().length() > 0) {
+      tag.setAlbum(fields.getAlbum());
+    }
+    if (fields.getContributingArtist().length() > 0) {
+      tag.setArtist(fields.getContributingArtist());
+    }
+    if (fields.getGenreDescription().length() > 0) {
+      tag.setGenre(ID3v1Genres.matchGenreDescription(fields.getGenreDescription()));
+    }
+    if (fields.getYear().length() > 0) {
+      tag.setYear(fields.getYear());
+    }
+
+    if (fields.getAlbumArtist().length() > 0) {
+      tag.setAlbumArtist(fields.getAlbumArtist());
+    }
+
+    // Currently not working
+    if (fields.getAlbumArt() != null) {
+      setAlbumImage(tag, fields);
     }
   }
 
-  public void setAlbumImage(ID3v2 tag, MusicFields fields) {
+  void setAlbumImage(ID3v2 tag, MusicFields fields) {
     try {
       tag.setAlbumImage(
           Files.readAllBytes(fields.getAlbumArt().toPath()),
           Files.probeContentType(fields.getAlbumArt().toPath()));
     } catch (IOException e) {
-      log.error(e.getMessage(), e);
+      LOGGER.error(e.getMessage(), e);
     }
   }
 

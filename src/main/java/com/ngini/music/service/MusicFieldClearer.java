@@ -10,14 +10,14 @@ import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.Mp3File;
 
 
-public class MusicFieldClearer {
-  
+class MusicFieldClearer {
+
   private static final String BLANK_VALUE = " ";
-  
-  private static final Logger log = LoggerFactory.getLogger(MusicFieldClearer.class);
-  
-  public void clearOutUnwantedFields(List<Mp3File> mp3Files) {
-    log.info("Clearing out unwanted fields.");
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MusicFieldClearer.class);
+
+  void clearOutUnwantedFields(List<Mp3File> mp3Files) {
+    LOGGER.info("Clearing out unwanted fields.");
     for (Mp3File mp3File : mp3Files) {
       if (mp3File.hasId3v1Tag()) {
         clearOutUnwantedFields(mp3File.getId3v1Tag());
@@ -25,17 +25,17 @@ public class MusicFieldClearer {
         clearOutUnwantedFields(mp3File.getId3v2Tag());
       }
     }
-    log.info("Unwanted fields cleared.");
+    LOGGER.info("Unwanted fields cleared.");
   }
 
-  public void clearOutUnwantedFields(ID3v1 tag) {
+  void clearOutUnwantedFields(ID3v1 tag) {
     tag.setComment(BLANK_VALUE);
-    
+
     if (tag instanceof ID3v2) {
       ID3v2 id3v2Tag = (ID3v2) tag;
-      
+
       id3v2Tag.setArtistUrl(BLANK_VALUE);
-      
+
       id3v2Tag.setEncoder(BLANK_VALUE);
       id3v2Tag.setComposer(BLANK_VALUE);
       id3v2Tag.setCompilation(false);
@@ -50,7 +50,7 @@ public class MusicFieldClearer {
   }
 
 
-  public boolean unwantedFieldsArePopulated(List<Mp3File> mp3Files) {
+  boolean unwantedFieldsArePopulated(List<Mp3File> mp3Files) {
     boolean unwantedFieldsPopulated = false;
     for (Mp3File mp3File : mp3Files) {
       if (mp3File.hasId3v1Tag()) {
@@ -60,18 +60,18 @@ public class MusicFieldClearer {
         boolean unwanted = unwantedFieldsArePopulated(mp3File.getId3v2Tag());
         unwantedFieldsPopulated = unwantedFieldsPopulated || unwanted;
       } else {
-        log.error(String.format("No music tag found for file: %s", mp3File.getFilename()));
+        LOGGER.error(String.format("No music tag found for file: %s", mp3File.getFilename()));
       }
     }
     return unwantedFieldsPopulated;
   }
 
-  public boolean unwantedFieldsArePopulated(ID3v1 tag) {
-    boolean unwantedFieldsPopulated = false ;
-    log.trace("--------------------------------------------");
+  boolean unwantedFieldsArePopulated(ID3v1 tag) {
+    boolean unwantedFieldsPopulated;
+    LOGGER.trace("--------------------------------------------");
     boolean fieldPopulated = checkIfPopulated("Comment", tag.getComment());
-    unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
-    
+    unwantedFieldsPopulated = fieldPopulated;
+
     if (tag instanceof ID3v2) {
       ID3v2 id3v2Tag = (ID3v2) tag;
       fieldPopulated = checkIfPopulated("Copyright", id3v2Tag.getCopyright());
@@ -97,24 +97,24 @@ public class MusicFieldClearer {
       fieldPopulated = checkIfPopulated("Genre Description",id3v2Tag.getGenreDescription());
       unwantedFieldsPopulated = unwantedFieldsPopulated || fieldPopulated;
     }
-    log.trace("--------------------------------------------");
+    LOGGER.trace("--------------------------------------------");
     return unwantedFieldsPopulated;
   }
 
-  public boolean checkIfPopulated(String fieldName, String fieldValue) {
+  boolean checkIfPopulated(String fieldName, String fieldValue) {
     if (fieldValue != null && fieldValue.trim().length() > 0) {
-      log.trace(String.format("[%s] has a value: [%s]", fieldName, fieldValue));
+      LOGGER.trace(String.format("[%s] has a value: [%s]", fieldName, fieldValue));
       return true;
     }
     return false;
   }
 
-  public boolean checkIfTrue(String fieldName, boolean fieldValue) {
+  boolean checkIfTrue(String fieldName, boolean fieldValue) {
     if (fieldValue) {
-      log.trace(String.format("[%s] is true", fieldName));
+      LOGGER.trace(String.format("[%s] is true", fieldName));
       return true;
     }
     return false;
   }
-  
+
 }

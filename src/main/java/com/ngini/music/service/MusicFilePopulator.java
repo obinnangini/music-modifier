@@ -16,29 +16,29 @@ import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 
-public class MusicFilePopulator {
+class MusicFilePopulator {
 
   private static Set<String> EXTENSIONS  = new HashSet<String>(Arrays.asList("mp3"));
 
-  private static final Logger log = LoggerFactory.getLogger(MusicFilePopulator.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MusicFilePopulator.class);
 
-  public List<Mp3File> getMusicFiles(File dir) throws IOException {
+  List<Mp3File> getMusicFiles(File dir) throws IOException {
     List<Mp3File> mp3Files = new ArrayList<>();
-    log.info(String.format("Files found in [%s]: ", dir.getPath()));
+    LOGGER.info(String.format("Files found in [%s]: ", dir.getPath()));
     for (File file : dir.listFiles()) {
       if (file.isFile() && isMusicFile(file)) {
-        log.info(String.format("[%s]", file.getName()));
+        LOGGER.info(String.format("[%s]", file.getName()));
         try {
           Mp3File mp3File = new Mp3File(file.getAbsolutePath());
           mp3Files.add(mp3File);
         } catch (UnsupportedTagException | InvalidDataException e) {
-          log.error(e.getMessage(), e);
+          LOGGER.error(e.getMessage(), e);
         }
       }
     }
     return mp3Files;
   }
-  
+
   private static boolean isMusicFile(File f) {
     return EXTENSIONS.contains(f.getPath().substring(f.getPath().lastIndexOf('.') + 1));
   }

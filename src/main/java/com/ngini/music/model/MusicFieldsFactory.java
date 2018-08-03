@@ -18,9 +18,9 @@ public class MusicFieldsFactory {
 
   private static final List<String> GENRES = Arrays.asList(ID3v1Genres.GENRES);
 
-  private static final Logger log = LoggerFactory.getLogger(MusicFieldsFactory.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MusicFieldsFactory.class);
 
-  public static MusicFields getMusicFields(String albumArtist, String album, 
+  public static MusicFields getMusicFields(String albumArtist, String album,
       String contributingArtist, String year,
       String genreDescription, String albumArtFilePath, String removeFromTitle) {
     MusicFields fields = new MusicFields();
@@ -29,7 +29,7 @@ public class MusicFieldsFactory {
     fields.setAlbum(album);
     fields.setContributingArtist(contributingArtist);
     fields.setRemoveFromTitle(removeFromTitle);
-    
+
     fields.setAlbumArt(getAlbumFilePath(albumArtFilePath));
     fields.setYear(getYear(year));
     fields.setGenreDescription(getGenreDesc(genreDescription));
@@ -37,7 +37,7 @@ public class MusicFieldsFactory {
     return fields;
   }
 
-  public static File getAlbumFilePath(String albumArtFilePath) {
+  static File getAlbumFilePath(String albumArtFilePath) {
     if (albumArtFilePath.length() > 0) {
       File file = new File(albumArtFilePath);
       if (file.exists()) {
@@ -46,35 +46,35 @@ public class MusicFieldsFactory {
         if (type.equals("image")) {
           return file;
         } else {
-          log.warn(String.format(
+          LOGGER.warn(String.format(
               "[%s] is not a valid image file! Will not set album art",
               albumArtFilePath));
         }
       } else {
-        log.warn(String.format("[%s] does not exist! Will not set album art", albumArtFilePath));
+        LOGGER.warn(String.format("[%s] does not exist! Will not set album art", albumArtFilePath));
       }
     }
     return null;
   }
 
-  public static String getGenreDesc(String genreDescription) {
+  static String getGenreDesc(String genreDescription) {
     if (genreDescription.length() > 0) {
       if (GENRES.contains(genreDescription)) {
         return genreDescription;
       } else {
-        log.error(String.format("[%s] is not a valid Genre!", genreDescription));
+        LOGGER.error(String.format("[%s] is not a valid Genre!", genreDescription));
       }
     }
     return EMPTY_STRING;
   }
 
-  public static String getYear(String year) {
+  static String getYear(String year) {
     if (year.length() > 0) {
       try {
         Integer.parseInt(year);
         return year;
       } catch (NumberFormatException e) {
-        log.error(String.format("[%s] is not a valid Year!", year), e);
+        LOGGER.error(String.format("[%s] is not a valid Year!", year), e);
       }
     }
     return EMPTY_STRING;

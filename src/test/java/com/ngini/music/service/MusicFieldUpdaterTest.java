@@ -32,11 +32,11 @@ public class MusicFieldUpdaterTest {
     
     Mp3File mp3File1 = mock(Mp3File.class);
     expect(mp3File1.hasId3v1Tag()).andReturn(true);
+    expect(mp3File1.hasId3v2Tag()).andReturn(false);
     ID3v1 id3v1Tag = new ID3v1Tag();
     expect(mp3File1.getId3v1Tag()).andReturn(id3v1Tag);
     
     Mp3File mp3File2 = mock(Mp3File.class);
-    expect(mp3File2.hasId3v1Tag()).andReturn(false);
     expect(mp3File2.hasId3v2Tag()).andReturn(true);
     ID3v2 id3v2Tag = new ID3v22Tag();
     expect(mp3File2.getId3v2Tag()).andReturn(id3v2Tag);
@@ -62,6 +62,32 @@ public class MusicFieldUpdaterTest {
 
   @Test
   public void testSetFieldsID3v1MusicFields() {
+    ID3v1 id3v1Tag = new ID3v1Tag();
+
+    String dummyTitle = "Dummy title";
+    id3v1Tag.setTitle(dummyTitle);
+
+    String albumArtist = "Artist";
+    String album = "Album";
+    String contributingArtist = "Contribute";
+    String year = "1956";
+    String genreDescription = "Hip-Hop";
+    String albumArtFilePath = "Wrong";
+    String removeFromTitle = "Take It Out!";
+    MusicFields fields = MusicFieldsFactory.getMusicFields(
+      albumArtist, album, contributingArtist,
+      year, genreDescription, albumArtFilePath, removeFromTitle);
+
+    new MusicFieldUpdater().setFields(id3v1Tag, fields);
+    assertEquals(dummyTitle, id3v1Tag.getTitle());
+    assertEquals(album, id3v1Tag.getAlbum());
+    assertEquals(contributingArtist, id3v1Tag.getArtist());
+    assertEquals(ID3v1Genres.matchGenreDescription(genreDescription), id3v1Tag.getGenre());
+    assertEquals(year, id3v1Tag.getYear());
+  }
+
+  @Test
+  public void testSetFieldsID3v2MusicFields() {
     ID3v2 id3v2Tag = new ID3v22Tag();
     
     String dummyTitle = "Dummy title";
