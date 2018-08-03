@@ -16,27 +16,27 @@ import com.ngini.music.model.MusicFieldsFactory;
 
 public class MusicModifierService {
 
-  private static final Logger log = LoggerFactory.getLogger(MusicModifierService.class);
-  
+  private static final Logger LOGGER = LoggerFactory.getLogger(MusicModifierService.class);
+
   private MusicFilePopulator populator;
   private MusicFieldClearer clearer;
   private MusicFieldUpdater updater;
   private MusicFileSaver saver;
-  
+
   public MusicModifierService() {
     populator = new MusicFilePopulator();
     clearer = new MusicFieldClearer();
     updater = new MusicFieldUpdater();
     saver = new MusicFileSaver();
   }
-  
+
   public void run() {
     System.out.print("Please provide the path to a folder containing the music files: ");
     handleInput(System.in);
-    log.info("Exiting....");
+    LOGGER.info("Exiting....");
   }
 
-  public void handleInput(InputStream in) {
+  void handleInput(InputStream in) {
     Scanner keyboard = new Scanner(in);
     String line = keyboard.nextLine();
     String filePath = line.trim();
@@ -48,7 +48,7 @@ public class MusicModifierService {
           List<Mp3File> mp3Files = getPopulator().getMusicFiles(musicFolder);
           boolean clearUnwantedFields = handleUnwantedFields(keyboard, mp3Files);
           boolean updateSelectFields = handleUpdateSelectFields(keyboard, mp3Files);
-          
+
           String textToRemoveFromFileNames = "";
           System.out.print("Would you like to strip text from the file names? (Y/N): ");
           boolean updateFileNames = positiveResponse(keyboard);
@@ -56,29 +56,29 @@ public class MusicModifierService {
             System.out.print("String to strip from file names: ");
             textToRemoveFromFileNames = keyboard.nextLine();
           }
-          
+
           if (clearUnwantedFields || updateSelectFields || updateFileNames) {
             File modifiedFolder = new File(musicFolder, "modified");
             if (modifiedFolder.mkdir()) {
               getSaver().saveMusicFiles(modifiedFolder, mp3Files, textToRemoveFromFileNames);
             } else {
-              log.error(String.format("Error. Could not create directory [%s]", modifiedFolder.getAbsolutePath()));
+              LOGGER.error(String.format("Error. Could not create directory [%s]", modifiedFolder.getAbsolutePath()));
             }
           }
 
         } catch (IOException | NotSupportedException e) {
-          log.error(e.getMessage(), e);
+          LOGGER.error(e.getMessage(), e);
         }
       } else {
-        log.error(String.format("[%s] specified is not a directory!", musicFolder));
+        LOGGER.error(String.format("[%s] specified is not a directory!", musicFolder));
       }
     } else {
-      log.error(String.format("[%s] specified does not exist!", musicFolder));
+      LOGGER.error(String.format("[%s] specified does not exist!", musicFolder));
     }
     keyboard.close();
   }
 
-  public boolean handleUpdateSelectFields(Scanner scanner, List<Mp3File> mp3Files) {
+  boolean handleUpdateSelectFields(Scanner scanner, List<Mp3File> mp3Files) {
     System.out.print("Would you like to update any MP3 fields? (Y/N): ");
     boolean updateSelectFields = positiveResponse(scanner);
     if (updateSelectFields) {
@@ -91,7 +91,7 @@ public class MusicModifierService {
     return updateSelectFields;
   }
 
-  public MusicFields getMusicFields(Scanner scanner) {
+  MusicFields getMusicFields(Scanner scanner) {
     String albumArtist = getInput("Album artist", scanner);
     String album = getInput("Album", scanner);
     System.out.print(String.format("[%s]: ", "String to strip from titles"));
@@ -106,7 +106,7 @@ public class MusicModifierService {
         genreDescription, albumArtFilePath, removeFromTitle);
   }
 
-  public boolean handleUnwantedFields(Scanner scanner, List<Mp3File> mp3Files) {
+  boolean handleUnwantedFields(Scanner scanner, List<Mp3File> mp3Files) {
     boolean clearUnwantedFields = false;
     if (getClearer().unwantedFieldsArePopulated(mp3Files)) {
       System.out.print("Unwanted fields can be cleared out. Continue? (Y/N): ");
@@ -118,30 +118,30 @@ public class MusicModifierService {
     return clearUnwantedFields;
   }
 
-  public String getInput(String fieldName, Scanner scanner) {
+  String getInput(String fieldName, Scanner scanner) {
     System.out.print(String.format("[%s]: ", fieldName));
     return scanner.nextLine().trim();
   }
 
-  public boolean positiveResponse(Scanner scanner) {
+  boolean positiveResponse(Scanner scanner) {
     String line = scanner.nextLine();
     return line.length() > 0 && Character.toLowerCase(line.trim().charAt(0)) == 'y';
   }
 
-  public MusicFilePopulator getPopulator() {
+  MusicFilePopulator getPopulator() {
     return populator;
   }
 
-  public MusicFieldClearer getClearer() {
+  MusicFieldClearer getClearer() {
     return clearer;
   }
 
-  public MusicFieldUpdater getUpdater() {
+  MusicFieldUpdater getUpdater() {
     return updater;
   }
 
-  public MusicFileSaver getSaver() {
+  MusicFileSaver getSaver() {
     return saver;
   }
-  
+
 }
