@@ -53,10 +53,34 @@ public class Utils {
   }
 
   private void logDetails(Mp3File mp3file) {
-    if (mp3file.hasId3v1Tag()) {
-      logDetails(mp3file.getId3v1Tag());
-    } else if (mp3file.hasId3v2Tag()) {
+    if (mp3file.hasId3v2Tag()) {
       logDetails(mp3file.getId3v2Tag());
+    } else  if (mp3file.hasId3v1Tag()) {
+      logDetails(mp3file.getId3v1Tag());
+    }
+  }
+
+  private void logDetails(ID3v2 tag) {
+    LOGGER.info("Track: " + tag.getTrack());
+    LOGGER.info("Artist: " + tag.getArtist());
+    LOGGER.info("Title: " + tag.getTitle());
+    LOGGER.info("Album: " + tag.getAlbum());
+    LOGGER.info("Year: " + tag.getYear());
+    LOGGER.info("Genre: " + tag.getGenre() + " (" + tag.getGenreDescription() + ")");
+    LOGGER.info("Comment: " + tag.getComment());
+
+    LOGGER.info("Lyrics: " + tag.getLyrics());
+    LOGGER.info("Composer: " + tag.getComposer());
+    LOGGER.info("Publisher: " + tag.getPublisher());
+    LOGGER.info("Original artist: " + tag.getOriginalArtist());
+    LOGGER.info("Album artist: " + tag.getAlbumArtist());
+    LOGGER.info("Copyright: " + tag.getCopyright());
+    LOGGER.info("URL: " + tag.getUrl());
+    LOGGER.info("Encoder: " + tag.getEncoder());
+    byte[] albumImageData = tag.getAlbumImage();
+    if (albumImageData != null) {
+      LOGGER.info("Have album image data, length: " + albumImageData.length + " bytes");
+      LOGGER.info("Album image mime type: " + tag.getAlbumImageMimeType());
     }
   }
 
@@ -68,22 +92,5 @@ public class Utils {
     LOGGER.info("Year: " + tag.getYear());
     LOGGER.info("Genre: " + tag.getGenre() + " (" + tag.getGenreDescription() + ")");
     LOGGER.info("Comment: " + tag.getComment());
-
-    if (tag instanceof ID3v2) {
-      ID3v2 id3v2Tag = (ID3v2) tag;
-      LOGGER.info("Lyrics: " + id3v2Tag.getLyrics());
-      LOGGER.info("Composer: " + id3v2Tag.getComposer());
-      LOGGER.info("Publisher: " + id3v2Tag.getPublisher());
-      LOGGER.info("Original artist: " + id3v2Tag.getOriginalArtist());
-      LOGGER.info("Album artist: " + id3v2Tag.getAlbumArtist());
-      LOGGER.info("Copyright: " + id3v2Tag.getCopyright());
-      LOGGER.info("URL: " + id3v2Tag.getUrl());
-      LOGGER.info("Encoder: " + id3v2Tag.getEncoder());
-      byte[] albumImageData = id3v2Tag.getAlbumImage();
-      if (albumImageData != null) {
-        LOGGER.info("Have album image data, length: " + albumImageData.length + " bytes");
-        LOGGER.info("Album image mime type: " + id3v2Tag.getAlbumImageMimeType());
-      }
-    }
   }
 }

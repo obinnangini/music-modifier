@@ -31,25 +31,6 @@ class MusicFieldUpdater {
     LOGGER.info("Updating complete.");
   }
 
-  void setFields(ID3v1 tag, MusicFields fields) {
-    if (fields.getRemoveFromTitle().length() > 0) {
-      String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
-      tag.setTitle(newTitle);
-    }
-    if (fields.getAlbum().length() > 0) {
-      tag.setAlbum(fields.getAlbum());
-    }
-    if (fields.getContributingArtist().length() > 0) {
-      tag.setArtist(fields.getContributingArtist());
-    }
-    if (fields.getGenreDescription().length() > 0) {
-      tag.setGenre(ID3v1Genres.matchGenreDescription(fields.getGenreDescription()));
-    }
-    if (fields.getYear().length() > 0) {
-      tag.setYear(fields.getYear());
-    }
-  }
-
   void setFields(ID3v2 tag, MusicFields fields) {
     if (fields.getRemoveFromTitle().length() > 0) {
       String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
@@ -81,10 +62,29 @@ class MusicFieldUpdater {
   void setAlbumImage(ID3v2 tag, MusicFields fields) {
     try {
       tag.setAlbumImage(
-          Files.readAllBytes(fields.getAlbumArt().toPath()),
-          Files.probeContentType(fields.getAlbumArt().toPath()));
+        Files.readAllBytes(fields.getAlbumArt().toPath()),
+        Files.probeContentType(fields.getAlbumArt().toPath()));
     } catch (IOException e) {
       LOGGER.error(e.getMessage(), e);
+    }
+  }
+
+  void setFields(ID3v1 tag, MusicFields fields) {
+    if (fields.getRemoveFromTitle().length() > 0) {
+      String newTitle = Utils.stripSubstringFromText(tag.getTitle(), fields.getRemoveFromTitle());
+      tag.setTitle(newTitle);
+    }
+    if (fields.getAlbum().length() > 0) {
+      tag.setAlbum(fields.getAlbum());
+    }
+    if (fields.getContributingArtist().length() > 0) {
+      tag.setArtist(fields.getContributingArtist());
+    }
+    if (fields.getGenreDescription().length() > 0) {
+      tag.setGenre(ID3v1Genres.matchGenreDescription(fields.getGenreDescription()));
+    }
+    if (fields.getYear().length() > 0) {
+      tag.setYear(fields.getYear());
     }
   }
 
