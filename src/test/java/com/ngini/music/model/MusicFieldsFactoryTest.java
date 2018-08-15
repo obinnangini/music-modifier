@@ -30,48 +30,48 @@ public class MusicFieldsFactoryTest {
     assertEquals(contributingArtist, fields.getContributingArtist());
     assertEquals(year, fields.getYear());
     assertEquals("", fields.getGenreDescription());
-    assertEquals(null, fields.getAlbumArt());
+    assertNull(fields.getAlbumArt());
     assertEquals(removeFromTitle, fields.getRemoveFromTitle());
   }
-  
+
   @Test
   public void testGetAlbumFilePathSuccess() throws IOException {
     File tmpDir = new File(System.getProperty("java.io.tmpdir"));
     File dummyMusicFile = new File(tmpDir, "Dummy.jpg");
     try (FileWriter out = new FileWriter(dummyMusicFile.getPath())) {
       out.append("Dummy data");
-      assertNotNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath())); 
+      assertNotNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath()));
     }
-    try { 
-      assertTrue(dummyMusicFile.delete()); 
+    try {
+      assertTrue(dummyMusicFile.delete());
     } finally { }
   }
-  
+
   @Test
   public void testGetAlbumFilePathFailureWrongFileType() throws IOException {
     File tmpDir = new File(System.getProperty("java.io.tmpdir"));
     File dummyMusicFile = new File(tmpDir, "Dummy.mp3");
     try (FileWriter out = new FileWriter(dummyMusicFile.getPath())) {
       out.append("Dummy data");
-      assertNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath())); 
+      assertNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath()));
     }
-    try { 
-      assertTrue(dummyMusicFile.delete()); 
+    try {
+      assertTrue(dummyMusicFile.delete());
     } finally { }
   }
-  
+
   @Test
   public void testGetAlbumFilePathFailureNoFile() throws IOException {
     File tmpDir = new File(System.getProperty("java.io.tmpdir"));
     File dummyMusicFile = new File(tmpDir, "Dummy.mp3");
-    assertNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath())); 
+    assertNull(MusicFieldsFactory.getAlbumFilePath(dummyMusicFile.getPath()));
   }
-  
+
   @Test
   public void testGetAlbumFilePathFailureEmptyString() {
     assertEquals(null, MusicFieldsFactory.getAlbumFilePath(""));
   }
-  
+
   @Test
   public void testGetGenreDesc() {
     assertEquals("Dance", MusicFieldsFactory.getGenreDesc("Dance"));
