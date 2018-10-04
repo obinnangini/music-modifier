@@ -53,7 +53,6 @@ class MusicFieldUpdater {
       tag.setAlbumArtist(fields.getAlbumArtist());
     }
 
-    // Currently not working
     if (fields.getAlbumArt() != null) {
       setAlbumImage(tag, fields);
     }

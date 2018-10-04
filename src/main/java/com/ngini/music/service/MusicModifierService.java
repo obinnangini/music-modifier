@@ -100,7 +100,7 @@ public class MusicModifierService {
     String year = getInput("Album Year", scanner);
     String genreDescription = getInput("Album Genre", scanner);
     // Disabled since album art set is not working.
-    String albumArtFilePath = "" ; //getInput("Path to album art", keyboard);
+    String albumArtFilePath = getInput("Path to album art", scanner).replaceAll("^\"|\"$", "");
     return MusicFieldsFactory.getMusicFields(
         albumArtist, album, contributingArtist, year,
         genreDescription, albumArtFilePath, removeFromTitle);

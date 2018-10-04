@@ -1,4 +1,5 @@
 # Music Modifier
+Thank you, S. Poland.
 
 [![Build Status](https://travis-ci.org/obinnangini/music-modifier.svg?branch=master)](https://travis-ci.org/obinnangini/music-modifier)
 [![Coverage Status](https://coveralls.io/repos/github/obinnangini/music-modifier/badge.svg?branch=master)](https://coveralls.io/github/obinnangini/music-modifier?branch=master)
