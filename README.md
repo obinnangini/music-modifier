@@ -16,6 +16,7 @@ The tool can be used to:
     1. Contributing artist
     1. Genre
     1. Year
+    1. Album art
 1. Clear out fields:
     1. AuthorURL
     1. Encoder By
@@ -38,6 +39,3 @@ OR
 
 ## How it works
 ID3v1 and ID3v2 tags are updated using the [mp3agic](https://github.com/mpatric/mp3agic) library
-
-## Extensions
-1. Attach image provided via filePath to ID3 tags of all MP3s in a folder
