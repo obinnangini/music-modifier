@@ -95,11 +95,10 @@ public class MusicModifierService {
     String albumArtist = getInput("Album artist", scanner);
     String album = getInput("Album", scanner);
     System.out.print(String.format("[%s]: ", "String to strip from titles"));
-    String removeFromTitle =  scanner.nextLine();
+    String removeFromTitle = scanner.nextLine();
     String contributingArtist = getInput("Contributing artist", scanner);
     String year = getInput("Album Year", scanner);
     String genreDescription = getInput("Album Genre", scanner);
-    // Disabled since album art set is not working.
     String albumArtFilePath = getInput("Path to album art", scanner).replaceAll("^\"|\"$", "");
     return MusicFieldsFactory.getMusicFields(
         albumArtist, album, contributingArtist, year,
